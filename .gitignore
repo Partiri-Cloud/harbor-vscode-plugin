@@ -1,6 +1,37 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
 out/
+*.tsbuildinfo
 *.vsix
-*.log
+
+# Test artifacts
+coverage/
+# A full VS Code build (~1 GB) downloaded by `npm run test:e2e`.
+# .prettierignore and eslint.config.mjs exclude this too — keep the three in step.
 .vscode-test/
+
+# Secrets and local service config.
+#
+# A .partiri.jsonc is a real service config: it carries live workspace,
+# project, service, and secret UUIDs. Developing this extension means creating
+# them, and they must never be committed. Both spellings are matched because
+# the extension itself indexes both.
+.partiri.jsonc
+*.partiri.jsonc
+.env
+.env.*
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Editors and OS
+.idea/
+*.iml
+*.swp
+.DS_Store
+Thumbs.db
