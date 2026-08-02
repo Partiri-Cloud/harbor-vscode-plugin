@@ -1,0 +1,8 @@
+dist/
+out/
+node_modules/
+*.vsix
+package-lock.json
+# A full downloaded VS Code build (~1 GB) lands here; eslint.config.mjs
+# ignores it too, and the two lists must stay in step.
+.vscode-test/

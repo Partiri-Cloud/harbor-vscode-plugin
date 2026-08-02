@@ -1,0 +1,441 @@
+{
+  "name": "partiri",
+  "displayName": "Partiri Cloud",
+  "description": "Deploy and manage services on Partiri Cloud without leaving VS Code.",
+  "version": "0.1.0",
+  "publisher": "partiri-cloud",
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/.partiri.jsonc",
+    "workspaceContains:**/*.partiri.jsonc",
+    "onView:partiriLocalConfigs",
+    "onView:partiriResources",
+    "onView:partiriDetails",
+    "onView:partiriMonitoring",
+    "onView:partiriRecentJobs",
+    "onView:partiriLogs"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "Partiri Cloud",
+      "properties": {
+        "partiri.binaryPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the partiri CLI binary. Overrides PATH / ~/.cargo/bin / npm global bin discovery."
+        },
+        "partiri.apiUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Overrides the Partiri API URL (passed through as PARTIRI_API_URL). Leave empty to use the CLI's default."
+        },
+        "partiri.timeoutSeconds": {
+          "type": "number",
+          "default": 60,
+          "description": "Subprocess timeout, in seconds, for partiri CLI invocations."
+        },
+        "partiri.remoteValidation": {
+          "type": "string",
+          "enum": [
+            "off",
+            "onSave"
+          ],
+          "default": "onSave",
+          "description": "Controls the partiri-remote LSP diagnostic source (UUID existence, source reachability, balance warnings)."
+        },
+        "partiri.lsp.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the partiri lsp language server for .partiri.jsonc files."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "partiri.initWizard",
+        "title": "New Service...",
+        "category": "Partiri",
+        "icon": "$(add)"
+      },
+      {
+        "command": "partiri.pullService",
+        "title": "Pull Existing Service...",
+        "category": "Partiri",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "partiri.initInTerminal",
+        "title": "Init in Terminal",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.login",
+        "title": "Login",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.setApiKey",
+        "title": "Set API Key",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.doctor",
+        "title": "Doctor",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.refresh",
+        "title": "Refresh",
+        "category": "Partiri",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "partiri.deploy",
+        "title": "Deploy",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.push",
+        "title": "Push",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.pull",
+        "title": "Pull",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.pause",
+        "title": "Pause",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.unpause",
+        "title": "Unpause",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.kill",
+        "title": "Kill",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.logs",
+        "title": "Logs",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.watchLogs",
+        "title": "Watch Logs",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.metrics",
+        "title": "Metrics",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.jobs",
+        "title": "Jobs",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.validate",
+        "title": "Validate",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.validateRemote",
+        "title": "Validate (Remote)",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.editEnv",
+        "title": "Edit Env",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.applyEnv",
+        "title": "Apply Env",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.saveEnv",
+        "title": "Save Env",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.link",
+        "title": "Link",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.token",
+        "title": "Token",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.createProject",
+        "title": "Create Project...",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.createRegistrySecret",
+        "title": "Create Registry Secret...",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.createRepositorySecret",
+        "title": "Create Repository Secret...",
+        "category": "Partiri"
+      },
+      {
+        "command": "partiri.refreshLocalConfigs",
+        "title": "Refresh Local Configs",
+        "category": "Partiri",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "partiri.refreshDetails",
+        "title": "Refresh Details",
+        "category": "Partiri",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "partiri.refreshMonitoring",
+        "title": "Refresh Monitoring",
+        "category": "Partiri",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "partiri.refreshJobs",
+        "title": "Refresh Jobs",
+        "category": "Partiri",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "partiri.refreshLogs",
+        "title": "Refresh Logs",
+        "category": "Partiri",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "partiri.pullConfig",
+        "title": "Pull This Config",
+        "category": "Partiri",
+        "icon": "$(cloud-download)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "partiri",
+          "title": "Partiri",
+          "icon": "assets/activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "partiri": [
+        {
+          "id": "partiriLocalConfigs",
+          "name": "Local Configs",
+          "initialSize": 2
+        },
+        {
+          "id": "partiriDetails",
+          "name": "Details",
+          "initialSize": 3,
+          "type": "webview"
+        },
+        {
+          "id": "partiriMonitoring",
+          "name": "Monitoring",
+          "type": "webview",
+          "initialSize": 4
+        },
+        {
+          "id": "partiriLogs",
+          "name": "Logs",
+          "type": "webview",
+          "initialSize": 4
+        },
+        {
+          "id": "partiriRecentJobs",
+          "name": "Recent Jobs",
+          "initialSize": 2
+        },
+        {
+          "id": "partiriResources",
+          "name": "Resources",
+          "initialSize": 2,
+          "visibility": "collapsed"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "partiriLocalConfigs",
+        "contents": "No Partiri service config found in this workspace.\n[New Service](command:partiri.initWizard)\n[Pull Existing Service](command:partiri.pullService)",
+        "when": "partiri.configsScanned"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "partiri.initWizard",
+          "when": "view == partiriLocalConfigs",
+          "group": "navigation@1"
+        },
+        {
+          "command": "partiri.pullService",
+          "when": "view == partiriLocalConfigs",
+          "group": "navigation@2"
+        },
+        {
+          "command": "partiri.refresh",
+          "when": "view == partiriResources",
+          "group": "navigation"
+        },
+        {
+          "command": "partiri.refreshLocalConfigs",
+          "when": "view == partiriLocalConfigs",
+          "group": "navigation@9"
+        },
+        {
+          "command": "partiri.refreshDetails",
+          "when": "view == partiriDetails",
+          "group": "navigation@9"
+        },
+        {
+          "command": "partiri.refreshMonitoring",
+          "when": "view == partiriMonitoring",
+          "group": "navigation@9"
+        },
+        {
+          "command": "partiri.refreshJobs",
+          "when": "view == partiriRecentJobs",
+          "group": "navigation@9"
+        },
+        {
+          "command": "partiri.refreshLogs",
+          "when": "view == partiriLogs",
+          "group": "navigation@9"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "partiri.createProject",
+          "when": "view == partiriResources && viewItem == workspace",
+          "group": "inline"
+        },
+        {
+          "command": "partiri.createRegistrySecret",
+          "when": "view == partiriResources && viewItem == workspace"
+        },
+        {
+          "command": "partiri.createRepositorySecret",
+          "when": "view == partiriResources && viewItem == workspace"
+        },
+        {
+          "command": "partiri.push",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.pull",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.kill",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.logs",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.watchLogs",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.metrics",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.jobs",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.validate",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.validateRemote",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.editEnv",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.applyEnv",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.saveEnv",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.token",
+          "when": "view == partiriResources && (viewItem == service || viewItem == service-linked)"
+        },
+        {
+          "command": "partiri.link",
+          "when": "view == partiriResources && viewItem == service"
+        },
+        {
+          "command": "partiri.pullConfig",
+          "when": "view == partiriLocalConfigs && viewItem == localConfig",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src test",
+    "format": "prettier --check .",
+    "test": "vitest run",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "node test/e2e/runTests.js",
+    "vscode:prepublish": "npm run build -- --no-sourcemap"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "1.85.0",
+    "@vscode/test-electron": "^3.0.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "glob": "^13.0.6",
+    "mocha": "^11.7.6",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^4.1.10"
+  },
+  "icon": "assets/icon.png"
+}
