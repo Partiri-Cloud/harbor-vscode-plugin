@@ -2,7 +2,7 @@
   "name": "partiri",
   "displayName": "Partiri Cloud",
   "description": "Deploy and manage services on Partiri Cloud without leaving VS Code.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "partiri-cloud",
   "license": "UNLICENSED",
   "repository": {
