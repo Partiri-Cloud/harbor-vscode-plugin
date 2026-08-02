@@ -1,0 +1,34 @@
+Copyright (c) 2026 Partiri Cloud. All rights reserved.
+
+PROPRIETARY SOFTWARE — ALL RIGHTS RESERVED
+
+This source code is made publicly viewable for transparency and for the
+convenience of users of the Partiri Cloud platform. Publication does not
+grant any license to it.
+
+No permission is granted to use, copy, modify, merge, publish, distribute,
+sublicense, or sell this software or derivative works of it, except:
+
+  1. Installing and running the published extension from the Visual Studio
+     Marketplace or Open VSX, as an end user of the Partiri Cloud platform.
+
+  2. Building and running the extension locally from this repository for the
+     purpose of evaluating it or contributing changes back to Partiri Cloud.
+
+  3. Any other use expressly permitted in writing by Partiri Cloud.
+
+Contributions submitted to this repository are accepted on the understanding
+that copyright in them is assigned to Partiri Cloud.
+
+The published extension bundles third-party software under the MIT and ISC
+licenses. Those components remain governed by their own license terms, which
+are reproduced in full in THIRD_PARTY_NOTICES.md. Nothing in this notice
+restricts your rights under those licenses with respect to those components.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
