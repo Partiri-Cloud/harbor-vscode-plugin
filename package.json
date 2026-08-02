@@ -426,6 +426,10 @@
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
   },
+  "overrides": {
+    "diff": "^9.0.0",
+    "serialize-javascript": "^7.0.7"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
