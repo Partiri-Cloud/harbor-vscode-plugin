@@ -1,0 +1,73 @@
+name: Publish
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  # Every push to master reaches this workflow, but only a version bump should
+  # publish. Open VSX versions are immutable, so republishing an existing one
+  # would fail the run — this gates it instead.
+  check:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.check.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::v$VERSION is already published — nothing to do. Bump the version in package.json to release."
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::v$VERSION is not published yet — releasing."
+          fi
+
+  publish:
+    name: Package & publish
+    needs: check
+    if: needs.check.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+
+      - name: Package
+        run: npx --yes @vscode/vsce package --no-dependencies
+
+      # Open VSX first: it is the irreversible step. If it fails, no GitHub
+      # release is created and the run can be retried after a fix.
+      - name: Publish to Open VSX
+        env:
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+        run: npx --yes ovsx publish "partiri-$VERSION.vsix" -p "$OVSX_TOKEN"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v$VERSION" "partiri-$VERSION.vsix" \
+            --title "v$VERSION" --generate-notes
