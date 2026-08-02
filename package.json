@@ -5,6 +5,10 @@
   "version": "0.1.0",
   "publisher": "partiri-cloud",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Partiri-Cloud/harbor-vscode-plugin.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },

@@ -6,8 +6,8 @@ translates tree views, webview panels, commands, and a wizard into `partiri`
 invocations, and speaks LSP to `partiri lsp` for `.partiri.jsonc`
 diagnostics, completion, and hover. It does not talk to `api.partiri.cloud`
 directly and does not duplicate the CLI's config schema or validation rules
-— see [`../docs/cli-contract.md`](../docs/cli-contract.md) and
-[`../docs/lsp.md`](../docs/lsp.md) for the normative behavior this extension
+— see [`docs/cli-contract.md`](https://github.com/Partiri-Cloud/harbor-code-plugin/blob/main/docs/cli-contract.md) and
+[`docs/lsp.md`](https://github.com/Partiri-Cloud/harbor-code-plugin/blob/main/docs/lsp.md) for the normative behavior this extension
 implements.
 
 ## Features
@@ -100,13 +100,18 @@ The extension has its own icon (`assets/icon.png`), and the activity-bar
 icon is the Partiri mark (`assets/activitybar.svg`).
 
 This extension is proprietary (`"license": "UNLICENSED"` in
-[`package.json`](./package.json)), unlike the rest of this public repository
-— the [Zed shell](../zed/README.md) is Apache-2.0. That split is deliberate,
-not an oversight.
+[`package.json`](./package.json)), unlike the sibling shells in the
+[harbor-code-plugin](https://github.com/Partiri-Cloud/harbor-code-plugin)
+monorepo — the [Zed shell](https://github.com/Partiri-Cloud/harbor-code-plugin/blob/main/zed/README.md)
+is Apache-2.0. That split is deliberate, not an oversight.
+
+The published extension bundles third-party packages under the MIT and ISC
+licenses; their notices are reproduced in
+[`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
 
 ## Requirements
 
-- The [`partiri` CLI](https://github.com/partiri-cloud/harbor-cli), version
+- The [`partiri` CLI](https://github.com/Partiri-Cloud/harbor-cli), version
   **0.3.0 or newer** (the first release with `partiri lsp`). Install with
   `cargo install partiri-cli` or `npm i -g @partiri/cli` (no Windows builds
   for the npm package — use cargo on Windows).
@@ -147,8 +152,9 @@ npm run test:e2e    # downloads VS Code and drives a real extension host
 
 Most tests are plain unit tests over hand-built envelopes plus the `vscode`
 module fake in `test/mocks/`. The few that need a real subprocess spawn
-`../tools/fake-partiri`, a fixture-replaying stand-in for the real CLI. Either
-way the suite needs no network access and no API key.
+[`tools/fake-partiri`](https://github.com/Partiri-Cloud/harbor-code-plugin/blob/main/tools/fake-partiri), a fixture-replaying stand-in
+for the real CLI, from a sibling checkout of the monorepo. Either way the suite
+needs no network access and no API key.
 
 `npm run test:e2e` is the exception: it downloads a VS Code build on first run,
 so it is kept out of `npm test` and run on demand.
